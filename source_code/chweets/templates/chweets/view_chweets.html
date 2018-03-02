@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} Chweet - {{ chweet.id }} {% endblock title %}
+
+{% block content %}
+
+<h2>Chweet No. {{ chweet.id }}</h2>
+<ul>
+    <li>{{ chweet.content }}</li>
+    <li>{{ chweet.user }}</li>
+    <li>{{ chweet.timestamp }}</li>
+    <li>{{ chweet.updated | timesince }}</li>
+</ul>
+
+<button><a href="{% url 'update' chweet.id %}">Update</a></button>
+<button><a href="{% url 'delete' chweet.id %}">Delete</a></button>
+
+{% endblock content%}

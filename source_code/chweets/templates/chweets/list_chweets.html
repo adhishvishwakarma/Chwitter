@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %} Welcome {% endblock title %}
+
+{% block content %}
+
+{% include "chweets/search_form.html" %}
+<br/>
+<button><a href="{% url 'create' %}" class="top-menu">Create new chweet</a></button>
+<br/>
+
+{% for chweet in chweets %}
+    <h2><a href="{% url 'view' chweet.id %}">Chweet No. {{ chweet.id }}</a></h2>
+    <ul>
+        <li>{{ chweet.content }}</li>
+    </ul>
+{% empty %}
+    {% if request.GET.q %}
+    <p>No chweets found.</p>
+    {% else %}
+    <p>No Chweets yet.</p>
+    {% endif %}
+{% endfor %}
+
+{% endblock content%}
