@@ -10,12 +10,19 @@ def view_chweets(request, chweet_id):
 
 
 def list_chweets(request):
-    chweets = Chweet.objects.all()
+    chweets = Chweet.objects.all().order_by("-timestamp")
     query = request.GET.get("q", None)
-    print(request.GET)
     if query is not None:
         chweets = chweets.filter(content__icontains=query)
     context = {'chweets': chweets}
+    context['create_form'] = ChweetModelForm()
+    if request.method == 'POST':
+        form = ChweetModelForm(request.POST)
+        if form.is_valid():
+            chweet = form.save(commit=False)
+            chweet.user = request.user
+            chweet.save()
+            return redirect('view', chweet.id)
     return render(request, "chweets/list_chweets.html", context)
 
 
