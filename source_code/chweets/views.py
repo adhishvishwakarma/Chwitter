@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ChweetModelForm
 from .models import Chweet
+from django.contrib.auth.decorators import login_required
 
 
 def view_chweets(request, chweet_id):
@@ -9,6 +10,7 @@ def view_chweets(request, chweet_id):
     return render(request, "chweets/view_chweets.html", context)
 
 
+@login_required
 def list_chweets(request):
     chweets = Chweet.objects.all().order_by("-timestamp")
     query = request.GET.get("q", None)

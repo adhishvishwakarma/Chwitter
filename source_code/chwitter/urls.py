@@ -18,11 +18,17 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import register
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('chweets/', include('chweets.urls'))
+]
+
+urlpatterns += [
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', register, name="register"),
 ]
 
 if settings.DEBUG:
