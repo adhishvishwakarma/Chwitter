@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .forms import ChweetModelForm
 from .models import Chweet
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 
 def view_chweets(request, chweet_id):
@@ -24,7 +25,7 @@ def list_chweets(request):
             chweet = form.save(commit=False)
             chweet.user = request.user
             chweet.save()
-            return redirect('view', chweet.id)
+            return redirect('list')
     return render(request, "chweets/list_chweets.html", context)
 
 
@@ -59,3 +60,11 @@ def delete_chweet(request, chweet_id):
     chweet = get_object_or_404(Chweet, id=chweet_id)
     chweet.delete()
     return redirect('list')
+
+
+def re_chweet(request, chweet_id):
+    chweet = get_object_or_404(Chweet, id=chweet_id)
+    if request.user.is_authenticated:
+        new_chweet = Chweet.objects.rechweet(request.user, chweet)
+        return HttpResponseRedirect("/chweets/")
+    return redirect('view', chweet.id)

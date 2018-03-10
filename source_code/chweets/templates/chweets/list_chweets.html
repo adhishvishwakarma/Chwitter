@@ -25,8 +25,16 @@
             </div>
             <div class="media-body">
                 <h4 class="media-heading"><a href="{% url 'view' chweet.id %}">Chweet No. {{ chweet.id }}</a></h4>
+                {% if chweet.parent %}
+                    <span style="color:grey">Rechweeted by {{ chweet.user }} {{ chweet.timestamp|timesince }} back</span><br/>
+                    {{ chweet.parent.content }} <br/>
+                by {{ chweet.parent.user }} | {{ chweet.parent.timestamp|timesince }} ago |
+                <a href="{% url 'rechweet' chweet.id %}">Rechweet!</a>
+                {% else %}
                 {{ chweet.content }} <br/>
-                by {{ chweet.user }} | {{ chweet.timestamp|timesince }} ago
+                by {{ chweet.user }} | {{ chweet.timestamp|timesince }} ago |
+                <a href="{% url 'rechweet' chweet.id %}">Rechweet!</a>
+                {% endif %}
             </div>
         </div>
         <hr/>
